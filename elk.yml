@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    expose:
+      - "9200"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.2.0
+    volumes:
+      - ./logstash/config:/usr/share/logstash/config
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.2.0
+    expose:
+      - "5601"
+    depends_on:
+      - elasticsearch
+
+  elastalert:
+    image: jertel/elastalert2:2.2.0
+    volumes:
+      - ./elastalert/config:/opt/elastalert/config
+      - ./elastalert/rules:/opt/elastalert/rules
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    depends_on:
+      - elasticsearch
+
+  fluentbit:
+    image: fluent/fluent-bit:latest
+    container_name: fluentbit
+    restart: unless-stopped
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /etc/hostname:/etc/hostname:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Kuwait
+    ports:
+      - "2021:2021" # Optional: Prometheus metrics
+
+volumes:
+  logstash-data:
+  elastalert-data:
