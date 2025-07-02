@@ -4,8 +4,8 @@ services:
     container_name: fluentbit
     restart: unless-stopped
     volumes:
-      - "./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro"
-      - "./parsers.conf:/fluent-bit/etc/parsers.conf:ro"
+      - "./config/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro"
+      - "./config/parsers.conf:/fluent-bit/etc/parsers.conf:ro"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/log:/var/log:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -24,15 +24,17 @@ services:
     command: "-config.file=/etc/loki/local-config.yaml"
     volumes:
       - "loki-data:/loki"
-    ports:
-      - "3100:3100"
+      - "./config/loki.yaml:/etc/loki/local-config.yaml:ro"
+
+    expose:
+      - "3100"
   grafana:
     image: "grafana/grafana:latest"
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: password
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     volumes:
       - "grafana-data:/var/lib/grafana"
     depends_on:
