@@ -11,7 +11,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
     ports:
       - "24224:24224"
-      - "514:514/tcp"
+      - "514:514/udp"
     environment:
       - TZ=Asia/Kuwait
     command:
