@@ -16,7 +16,8 @@ services:
       - TZ=Asia/Kuwait
     command:
       - "-c"
-      - /fluent-bit/etc/fluent-bit.conf
+      - "./config/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro"
+      - "./config/parsers.conf:/fluent-bit/etc/parsers.conf:ro"
     depends_on:
       - loki
   loki:
