@@ -1,7 +1,6 @@
 service:
   flush: 1
   daemon: off
-  log_level: debug
   parsers_file: /custom/parsers.yaml
 
 pipeline:
