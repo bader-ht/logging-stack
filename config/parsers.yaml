@@ -1,0 +1,14 @@
+parsers:
+  - name: custom_syslog
+    format: regex
+    regex: ^<(?<pri>\d+)>\d+\s+(?<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.\d+)?[+\-]\d{2}:\d{2}\s+(?<host>\S+)\s+(?<msg>.*)$
+    time_key: time
+    time_format: "%Y-%m-%dT%H:%M:%S"
+    time_offset: -10800
+    time_keep: on
+
+  - name: docker
+    format: json
+    time_key: time
+    time_format: "%Y-%m-%dT%H:%M:%S.%L"
+    time_keep: on

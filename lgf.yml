@@ -1,10 +1,10 @@
 services:
   fluentbit:
-    image: "cr.fluentbit.io/fluent/fluent-bit:2.0"
+    image: "cr.fluentbit.io/fluent/fluent-bit:latest"
     container_name: fluentbit
-    restart: unless-stopped
+    restart: no
     volumes:
-      - "./config/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf"
+      - "./config/fluent.conf:/fluent-bit/etc/fluent-bit.conf"
       - "./config/parsers.conf:/fluent-bit/etc/parsers.conf"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/log:/var/log:ro"
@@ -17,12 +17,9 @@ services:
     command:
       - "-c"
       - "/fluent-bit/etc/fluent-bit.conf"
-      - "-R"
-      - "/fluent-bit/etc/parsers.conf"
-
-
     depends_on:
       - loki
+
   loki:
     image: "grafana/loki:latest"
     command: "-config.file=/etc/loki/local-config.yaml"
@@ -31,6 +28,7 @@ services:
       - "./config/loki.yaml:/etc/loki/local-config.yaml:ro"
     expose:
       - "3100"
+
   grafana:
     image: "grafana/grafana:latest"
     environment:

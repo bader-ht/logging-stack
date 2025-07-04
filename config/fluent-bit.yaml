@@ -1,0 +1,26 @@
+service:
+  flush: 1
+  daemon: off
+  log_level: debug
+  parsers_file: /custom/parsers.yaml
+
+pipeline:
+  inputs:
+    - name: syslog
+      tag: synology
+      listen: 0.0.0.0
+      port: 514
+      mode: udp
+      parser: custom_syslog
+
+    - name: tail
+      path: /var/lib/docker/containers/*/*.log
+      # parser: docker
+      tag: docker.*
+
+  outputs:
+    - name: loki
+      match: "*"
+      host: loki
+      port: 3100
+      labels: job=fluentbit
