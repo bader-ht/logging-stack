@@ -1,11 +1,11 @@
 services:
   fluentbit:
-    image: "cr.fluentbit.io/fluent/fluent-bit:latest"
+    image: "cr.fluentbit.io/fluent/fluent-bit:4.0.3"
     container_name: fluentbit
     restart: no
     volumes:
-      - "./config/fluent.yaml:/fluent-bit/etc/fluent-bit.yaml"
-      - "./config/parsers.yaml:/fluent-bit/etc/parsers.yaml"
+      - "${PWD}/config/fluent.yaml:/fluent-bit/etc/fluent-bit.yaml"
+      - "${PWD}/config/parsers.yaml:/fluent-bit/etc/parsers.yaml"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/log:/var/log:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -16,7 +16,7 @@ services:
       - TZ=Asia/Kuwait
     command:
       - "-c"
-      - "/fluent-bit/etc/fluent-bit.conf"
+      - "/fluent-bit/etc/fluent-bit.yaml"
     depends_on:
       - loki
 

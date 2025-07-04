@@ -1,16 +1,16 @@
 service:
   flush: 1
   daemon: off
-  parsers_file: /custom/parsers.yaml
+  parsers_file: /fluent-bit/etc/parsers.yaml
 
 pipeline:
   inputs:
-    - name: syslog
-      tag: synology
-      listen: 0.0.0.0
-      port: 514
-      mode: udp
-      parser: custom_syslog
+    # - name: syslog
+    #   tag: synology
+    #   listen: 0.0.0.0
+    #   port: 514
+    #   mode: udp
+    #   parser: custom_syslog
 
     - name: tail
       path: /var/lib/docker/containers/*/*.log
