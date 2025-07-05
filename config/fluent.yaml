@@ -28,7 +28,7 @@ pipeline:
       match: "*"
       host: loki
       port: 3100
-      labels: job=fluentbit
+      labels: job=$tag
 
     # - name: stdout
     #   match: "*"
