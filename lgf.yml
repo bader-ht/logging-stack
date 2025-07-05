@@ -4,8 +4,8 @@ services:
     container_name: fluentbit
     restart: no
     volumes:
-      - "${PWD}/config/fluent.yaml:/fluent-bit/etc/fluent-bit.yaml"
-      - "${PWD}/config/parsers.conf:/fluent-bit/etc/parsers.conf"
+      - "./config/fluent.yaml:/fluent-bit/etc/fluent-bit.yaml"
+      - "./config/parsers.conf:/fluent-bit/etc/parsers.conf"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/log:/var/log:ro"
       - "/etc/localtime:/etc/localtime:ro"

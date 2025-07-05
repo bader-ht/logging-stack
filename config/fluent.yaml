@@ -13,10 +13,10 @@ pipeline:
       tag: synology
       parser: synology_syslog
 
-    # - name: tail
-    #   path: /var/lib/docker/containers/*/*.log
-    #   # parser: docker
-    #   tag: docker.*
+    - name: tail
+      path: /var/lib/docker/containers/*/*.log
+      # parser: docker
+      tag: docker.*
 
   # filters:
   #   - name: parser
