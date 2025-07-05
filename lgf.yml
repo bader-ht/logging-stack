@@ -5,7 +5,7 @@ services:
     restart: no
     volumes:
       - "${PWD}/config/fluent.yaml:/fluent-bit/etc/fluent-bit.yaml"
-      - "${PWD}/config/parsers.yaml:/fluent-bit/etc/parsers.yaml"
+      - "${PWD}/config/parsers.conf:/fluent-bit/etc/parsers.conf"
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
       - "/var/log:/var/log:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -17,6 +17,9 @@ services:
     command:
       - "-c"
       - "/fluent-bit/etc/fluent-bit.yaml"
+      - "-R"
+      - "/fluent-bit/etc/parsers.conf"
+
     depends_on:
       - loki
 
