@@ -13,22 +13,22 @@ pipeline:
       listen: 0.0.0.0
       parser: synology_syslog
 
-    - name: tail
-      tag: docker.*
-      path: /var/lib/docker/containers/*/*.log
-      # parser: docker
+    # - name: tail
+    #   tag: docker
+    #   path: /var/lib/docker/containers/*/*.log
+    # parser: docker
 
-  # filters:
-  #   - name: parser
-  #     match: "synology*"
-  #     parser: banana
+  filters:
+    - name: modify
+      match: synology
+      set: job synology
 
   outputs:
     - name: loki
       match: "*"
       host: loki
       port: 3100
-      labels: job=$tag
+      labels: job=$tag,agent=fluent-bit
 
     # - name: stdout
     #   match: "*"
