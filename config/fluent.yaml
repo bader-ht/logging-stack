@@ -7,16 +7,16 @@ service:
 pipeline:
   inputs:
     - name: syslog
+      tag: synology
       mode: udp
       port: 514
       listen: 0.0.0.0
-      tag: synology
       parser: synology_syslog
 
     - name: tail
+      tag: docker.*
       path: /var/lib/docker/containers/*/*.log
       # parser: docker
-      tag: docker.*
 
   # filters:
   #   - name: parser
